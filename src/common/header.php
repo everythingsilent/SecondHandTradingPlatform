@@ -1,4 +1,5 @@
-<?php $id=0;?>
+<?php $isSign=!empty($_COOKIE['user_id']);?>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="#">
 	<img src="../common/images/商店.png" alt=""> 二手交易市场
@@ -10,7 +11,7 @@
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 	<?php
-		if($id==0){
+		if($isSign){
 			echo 
 	'<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 		<li class="nav-item">
@@ -23,7 +24,7 @@
 			<a class="nav-link" href="/my_goods/">我的商品</a>
 		</li>
 		<li class="nav-item">
-			<a href="#" class="nav-link">退出登录</a>
+			<a href="/account/SignOut.php" class="nav-link">退出登录</a>
 		</li>
 	</ul>';
 		}else{

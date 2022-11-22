@@ -1,47 +1,56 @@
 <?php
-header('Content-Type: application/json');
-
-include_once __DIR__ . "/Database.php";
+include_once dirname(__DIR__) . "\common\Database.php";
 
 class RegisterAccount extends Database{
-    public $accountName;
-    public $password;
+    public $userAccount;
+    public $userPassword;
+	
 
+	function checkInformation() {
+		$this->getUserInfomation();
 
-    function checkInformation() {
-        $this->getInformation();
+		$isExistNull = empty($this->userAccount) || empty($this->userPassword);
+		if ($isExistNull) {
+			$this->backAndPrompt('注册信息存在空值，请输入账号及密码信息。');
+		}else {
+			$this->checkExistAccount();
+		}
+	}
 
-        $isExistNull = (empty($this->accountName) || empty($this->password));
-        if($isExistNull){
-            echo json_encode(array("information"=>"传输信息存在空值"));
-        }else{
-            $this->accountRegister();
-        }
-    }
+	function getUserInfomation() {
+		$this->userAccount = $_GET['userAccount'];
+		$this->userPassword = $_GET['userPassword'];
+	}
 
+	function backAndPrompt($infomation) {
+		$this->prompt($infomation);
+		$this->historyBack();
+	}
 
-    function getInformation() {
-        $this->accountName = $_GET['username']?$_GET["username"]:$_POST["username"];
-        $this->password = $_GET['userpasswd']?$_GET['userpasswd']:$_POST['userpasswd'];
-    }
+	function historyBack() {
+		echo "<script language='JavaScript'>history.back();</script>";
+	}
 
+	function prompt($infomation) {
+		echo "<script language='JavaScript'>alert('$infomation');</script>";
+	}
 
-    function accountRegister() {
-        if(empty($this->findAccount())){
-            $this->insertAccount();
-        }else{
-            echo json_encode(array("information"=>"账号已存在"));
-        }
-    }
+	function checkExistAccount() {
+		$isExistAccount = !empty($this->findAccount());
+		if ($isExistAccount) {
+			$this->backAndPrompt('账号已存在，注册失败。');
+		}else {
+			$this->register();
+		}
+	}
 
-
-    function findAccount() {
-        if ($this->open()){
+	function findAccount() {
+		if ($this->open()){
             $userIds = array();
 
-            $sql = "select userid from account where username=?";
+            $sql = "select user_id from account where user_account=?";
             $stmt = $this -> conn -> prepare($sql);
-            $stmt -> bind_param("s",$this->accountName);
+            $stmt -> bind_param("s",$this->userAccount);
             $stmt -> bind_result($this->userId); 
 			if ($stmt -> execute()) {
                 while ($stmt -> fetch()) 
@@ -53,21 +62,27 @@ class RegisterAccount extends Database{
             }
             return $userIds;
         }
-    }
+	}
 
-    
-    function insertAccount() {
-        if ($this->open()){
-            $sql = "insert into account(username, password) values(?, ?)";
+	function register() {
+		if ($this->open()){
+            $sql = "insert into account(user_account, user_password) values(?, ?)";
             $stmt = $this -> conn -> prepare($sql);
-            $stmt -> bind_param("ss",$this->accountName, $this->password);
+            $stmt -> bind_param("ss",$this->userAccount, $this->userPassword);
 			if($stmt -> execute()) {
-                echo json_encode(array("information"=>"注册成功"));
+                $this->Prompt('注册成功。');
+				$this->jump('/account/login.html');
             }
             $stmt->close();
         }
-    }
+	}
+
+	function jump($path) {
+		echo "<script>window.location.replace('$path')</script>";
+	}
 }
+
+
 $register = new RegisterAccount;
 $register->checkInformation();
 

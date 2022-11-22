@@ -1,42 +1,60 @@
 <?php
-include_once __DIR__ . "/Database.php";
+include_once dirname(__DIR__) . "\common\Database.php";
 
 class AccountVerifyer extends Database{
-    public $userName;
-    public $userPasswd;
-    public $verifyUserName;
+    public $userAccount;
+    public $userPassword;
+	
+    public $userId;
+    public $verifyUserAccount;
     public $verifyUserPasswd;
 
-    public $userId;
+	function checkInformation() {
+		$this->getUserInfomation();
 
+		$isExistNull = empty($this->userAccount) || empty($this->userPassword);
+		if ($isExistNull) {
+			$this->backAndPrompt('登录信息存在空值，请输入账号及密码信息。');
+		}else {
+			$this->verifyAccount();
+		}
+	}
+
+	function getUserInfomation() {
+		$this->userAccount = $_GET['userAccount'];
+		$this->userPassword = $_GET['userPassword'];
+	}
+
+	function backAndPrompt($infomation) {
+		$this->prompt($infomation);
+		$this->historyBack();
+	}
+
+	function historyBack() {
+		echo "<script language='JavaScript'>history.back();</script>";
+	}
+
+	function prompt($infomation) {
+		echo "<script language='JavaScript'>alert('$infomation');</script>";
+	}
 
     function verifyAccount() {
-        $this->getUserInputAccount();
-        $this->getVerifyAccount();
-        
-        $isExistNullValue = empty($this->userName) || empty($this->userPasswd);
-        if ($isExistNullValue) {
-            $info = $this->existNullValue();
-        }else{
-            $info = $this->accountComparison();
+        $this->getVerifyInformation();
+
+        $isExistVerifyAccount = empty($this->userId);
+        if($isExistVerifyAccount) {
+            $this->backAndPrompt('不存在该用户。');
+        }else {
+            $this->comparison();
         }
-
-        $this->json_output($info);
     }
 
-
-    function getUserInputAccount() {
-        $this->userName = $_GET['username']?$_GET['username']:$_POST['username'];
-        $this->userPasswd = $_GET['userpasswd']?$_GET['userpasswd']:$_POST['userpasswd'];
-    }
-
-
-    function getVerifyAccount() {
+    function getVerifyInformation() {
         if ($this->open()){
-            $sql = "select userid, username, password from account where username=?";
+            $sql = "select user_id, user_account, user_password from account where user_account=?";
             $stmt = $this -> conn -> prepare($sql);
-            $stmt -> bind_param("s",$this->userName);
-            $stmt -> bind_result($this->userId, $this->verifyUserName, $this->verifyUserPasswd); 
+            $stmt -> bind_param("s",$this->userAccount);
+            $stmt -> bind_result($this->userId, $this->verifyUserAccount, $this->verifyUserPassword); 
 			$stmt -> execute();
 			while ($stmt -> fetch()) 
             {
@@ -46,30 +64,32 @@ class AccountVerifyer extends Database{
         }    
     }
 
-
-    function existNullValue(){
-        $info = json_encode(array('verify' => "exist null value"));
-        return $info;
-    }
-
-
-    function accountComparison() {
-        $isequal = ($this->userName == $this->verifyUserName) && ($this->verifyUserPasswd == $this->userPasswd);
-        if ($isequal){
-            $info = json_encode(array('verify' => "accept", 'userId' => $this->userId));
-        }else{
-            $info = json_encode(array('verify' => "reject"));
+    function comparison() {
+        $comparisonAccount = $this->userAccount == $this->verifyUserAccount;
+        $comparisonPassword = $this->userPassword == $this->verifyUserPassword;
+        $isComparisonSuccess = $comparisonAccount && $comparisonPassword;
+        if ($isComparisonSuccess) {
+            $this->comparisonSuccess();
+        }else {
+            $this->backAndPrompt('账号或密码错误');
         }
-        return $info;
     }
 
-    
-    function json_output($info) {
-        header('Content-Type: application/json');
-        echo ($info);
+    function comparisonSuccess() {
+        $this->cookieSetUserID();
+        $this->prompt('登录成功');
+        $this->jump();
+    }
+
+    function cookieSetUserID() {
+        setcookie("user_id", $this->userId,time()+3600*12,'/');
+    }
+
+    function jump() {
+        echo "<script>window.location.replace('/')</script>";
     }
 }
 
 $verifyer = new AccountVerifyer;
-$verifyer->verifyAccount();
+$verifyer->checkInformation();
 ?>

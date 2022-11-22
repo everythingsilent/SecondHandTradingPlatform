@@ -26,7 +26,7 @@ CREATE TABLE `user_center` (
 
 DROP TABLE IF EXISTS `goods`;
 CREATE TABLE `goods` (
-  `goods_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '商品编号',
+  `goods_id` int(11) NOT NULL COMMENT '商品编号',
   `user_id` int(11) NOT NULL COMMENT '用户编号',
   `goods_name` varchar(50) COMMENT '商品名字',
   `goods_describe` varchar(200) COMMENT '商品描述',
