@@ -1,77 +1,3 @@
-# used-goods
-#  二手交易平台
-
-## 技术栈
-
-
-> 前端：Bootstrap AJAX Jquery Html Css JavaScript
->
-> 后端：PHP
->
-> 数据持久层：MySQL
-
-
-
-## 初步产品设计
-
-### 架构图
-
-![二手交易平台架构图V1.1](E:\School\used-goods\doc\二手交易平台架构图V1.1.png)
-
-### 原型图
-
-![image-20221122135505434](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221122135505434.png)
-
-![image-20221122135525764](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221122135525764.png)
-
-![image-20221122135631864](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221122135631864.png)
-
-### 数据库ER图
-
-![ER](E:\School\used-goods\doc\ER.jpg)
-
-
-
-## 客户端界面
-
-### 登录
-
-![image-20221122134156031](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221122134156031.png)
-
-### 注册
-
-![image-20221122134212876](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221122134212876.png)
-
-### 首页
-
-![image-20221122133325044](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221122133325044.png)
-
-### 个人中心
-![image-20221122133339303](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221122133339303.png)
-
-### 我的商品
-
-![image-20221122133505187](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221122133505187.png)
-
-### 发布
-
-![image-20221122133650753](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221122133650753.png)
-
-![image-20221122134028098](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221122134028098.png)
-
-### 搜索
-
-![image-20221122134053363](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221122134053363.png)
-
-### 商品详情
-
-![image-20221122134322929](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221122134322929.png)
-
-## 数据库
-
-### SQL语句
-
-```sql
 DROP DATABASE IF EXISTS `usedGoods`;
 CREATE DATABASE `usedGoods`;
 use usedGoods;
@@ -135,8 +61,15 @@ DROP TABLE IF EXISTS `goods_class`;
 CREATE TABLE `goods_class` (
   `class_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '分类编号',
   `class_name` varchar(50) COMMENT '分类名',
+  `father_class_id` int(11) COMMENT '父级分类编号',
   PRIMARY KEY (`class_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
-```
+
+
+show databases;
+show tables;
+
+insert into account(user_account,user_password) values('admin','admin');
+insert into account(user_account,user_password) values('test','test');
 
