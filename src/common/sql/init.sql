@@ -66,11 +66,13 @@ CREATE TABLE `goods_class` (
 
 
 
---测试账号
+--测试账号;
+
 insert into account(user_account,user_password) values('admin','admin');
 insert into account(user_account,user_password) values('test','test');
 
---初始化商品分裂
+--初始化商品分类;
+
 insert into goods_class(class_name) values('其他');
 insert into goods_class(class_name) values('女装');
 insert into goods_class(class_name) values('奢侈');
