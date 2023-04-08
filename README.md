@@ -1,4 +1,3 @@
-# used-goods
 #  二手交易平台
 
 ## 技术栈
@@ -12,66 +11,8 @@
 
 
 
-## 初步产品设计
-
-### 架构图
-
-![二手交易平台架构图V1.1](E:\School\used-goods\doc\二手交易平台架构图V1.1.png)
-
-### 原型图
-
-![image-20221122135505434](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221122135505434.png)
-
-![image-20221122135525764](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221122135525764.png)
-
-![image-20221122135631864](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221122135631864.png)
-
-### 数据库ER图
-
-![ER](E:\School\used-goods\doc\ER.jpg)
-
-
-
-## 客户端界面
-
-### 登录
-
-![image-20221122134156031](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221122134156031.png)
-
-### 注册
-
-![image-20221122134212876](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221122134212876.png)
-
-### 首页
-
-![image-20221123234409835](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221123234409835.png)
-
-### 个人中心
-![image-20221122133339303](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221122133339303.png)
-
-### 我的商品
-
-![image-20221123234426623](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221123234426623.png)
-
-### 发布
-
-![image-20221123234452828](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221123234452828.png)
-
-![image-20221123234528230](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221123234528230.png)
-
-### 搜索
-
-![image-20221123234555700](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221123234555700.png)
-
-### 商品详情
-
-![image-20221123234628147](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221123234628147.png)
-
-![image-20221123234648937](C:\Users\BreaKpoint\AppData\Roaming\Typora\typora-user-images\image-20221123234648937.png)
 
 ## 数据库
-
-### SQL语句
 
 ```sql
 DROP DATABASE IF EXISTS `usedGoods`;
